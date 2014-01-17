@@ -1,10 +1,11 @@
 package com.h4313.deephouse.server.sensor;
 
+import com.h4313.deephouse.sensor.SensorType;
+
 public abstract class Sensor 
 {
 	protected String id;
-	
-	protected String type;
+	protected SensorType type;
 	
 	
 	public String getFrame()
