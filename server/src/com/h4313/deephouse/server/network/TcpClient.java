@@ -1,4 +1,4 @@
-package com.h4313.ghome.server.network;
+package com.h4313.deephouse.server.network;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,9 +31,9 @@ public class TcpClient extends Thread
 		{
 			this.alive = true;
 			this.clientId = TcpClient.lastClientId++;
-			InetAddress clientAddress = new InetAddress(ip);
-			Integer clientPort = new Integer(clientSocket.getPort());
-			this.socket = clientSocket;
+//			InetAddress clientAddress = new InetAddress(ip);
+//			Integer clientPort = new Integer(clientSocket.getPort());
+//			this.socket = clientSocket;
 			this.clientAddress = clientAddress.toString();
 			this.clientPort = clientPort;
 			this.catalogue = catalogue;
