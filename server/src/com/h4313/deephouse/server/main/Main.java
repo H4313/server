@@ -2,7 +2,8 @@ package com.h4313.deephouse.server.main;
 
 import java.util.Scanner;
 
-import com.h4313.deephouse.server.util.Tool;
+import com.h4313.deephouse.util.Tool;
+
 
 public class Main {
 	public static void main(String[] args) {
