@@ -17,4 +17,13 @@ public abstract class Tool
 		Matcher matcher = pattern.matcher(ip);
 		return matcher.matches();
 	}
+	
+	public static boolean isValidPort(final String port)
+	{
+		final String PATTERN = "^([0-9]*)$";
+
+		Pattern pattern = Pattern.compile(PATTERN);
+		Matcher matcher = pattern.matcher(port);
+		return matcher.matches();
+	}
 }

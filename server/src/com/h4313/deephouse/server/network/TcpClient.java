@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class TcpClient extends Thread
+public class TcpClient// extends Thread
 {
 	private volatile boolean alive;
 	private Socket socket;
@@ -23,7 +23,6 @@ public class TcpClient extends Thread
 	private Integer clientPort;
 	private static int lastClientId = 0;
     private int clientId;
-	private String catalogue;
 	
 	public TcpClient(String ip, int port) throws IOException
 	{
@@ -31,12 +30,11 @@ public class TcpClient extends Thread
 		{
 			this.alive = true;
 			this.clientId = TcpClient.lastClientId++;
-//			InetAddress clientAddress = new InetAddress(ip);
-//			Integer clientPort = new Integer(clientSocket.getPort());
-//			this.socket = clientSocket;
-			this.clientAddress = clientAddress.toString();
-			this.clientPort = clientPort;
-			this.catalogue = catalogue;
+			
+			this.socket = new Socket(InetAddress.getByName(ip), port);
+			
+			this.clientAddress = ip;
+			this.clientPort = port;
 			
 			this.out = this.socket.getOutputStream();
 			this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
@@ -48,80 +46,46 @@ public class TcpClient extends Thread
 		}		
 	}
 	
-	private void setPort(Integer clientPort) throws Exception
-	{
-		try
-		{
-			this.socket = new Socket(this.socket.getInetAddress(), clientPort.intValue());
-			this.out = this.socket.getOutputStream();
-			this.clientPort = clientPort;
-		}
-		catch(Exception e)
-		{
-			throw new Exception("Probleme lors de la connexion sur le nouveau port");
-		}
-	}
+//	private void setPort(Integer clientPort) throws Exception
+//	{
+//		try
+//		{
+//			this.socket = new Socket(this.socket.getInetAddress(), clientPort.intValue());
+//			this.out = this.socket.getOutputStream();
+//			this.clientPort = clientPort;
+//		}
+//		catch(Exception e)
+//		{
+//			throw new Exception("Probleme lors de la connexion sur le nouveau port");
+//		}
+//	}
 	
-	@Override
-	public void run()
-	{
-		try
-		{
-			this.runCatalogue();
-		}
-		catch(Exception e)
-		{
-//			e.printStackTrace();
-			System.out.println("Erreur avec le client TCP");
-		}
-	}
-	
-	public void runCatalogue() throws Exception
-	{
-		try
-		{
-			String received;
-			
-			while(this.alive)
-			{
-					received = this.receive();
-					if(received != null)
-					{
-						System.out.println("----- Catalogue START -----");
-						if(received.toLowerCase().contains((CharSequence)"catalog"))
-						{
-							System.out.println("Demande du catalogue");
-							
-							this.send(this.catalogue);
-							
-							System.out.println("Catalogue envoye");
-						}
-//						else
-//						{
-//							System.out.println(received);
-//						}
-						System.out.println("----- Catalogue END -----");
-						this.receive(); // CRLF
-					}
-			}
-		}
-		catch(Exception e)
-		{
-//			e.printStackTrace();
-			throw new Exception("Le catalogue n'a pas pu etre envoye !");
-		}
-	}
+//	@Override
+//	public void run()
+//	{
+//		try
+//		{
+//			
+//		}
+//		catch(Exception e)
+//		{
+////			e.printStackTrace();
+//			System.out.println("Erreur avec le client TCP");
+//		}
+//	}
 	
 	/**
 	* Recoit un message.
 	*/
 	public String receive() throws Exception
 	{
+		// A55A0B060000000900019966001A
 		String message = null;
 
 		try
 		{
 			message = this.in.readLine();
+//			byte[] buffer = new byte[28];
 		}
 		catch(Exception e)
 		{
