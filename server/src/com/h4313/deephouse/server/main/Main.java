@@ -2,7 +2,9 @@ package com.h4313.deephouse.server.main;
 
 import java.util.Scanner;
 
-import com.h4313.deephouse.server.network.TcpClient;
+import com.h4313.deephouse.server.network.CallBack;
+import com.h4313.deephouse.server.network.TcpExample;
+import com.h4313.deephouse.server.network.TcpSender;
 import com.h4313.deephouse.util.Tool;
 
 public class Main {
@@ -26,17 +28,16 @@ public class Main {
 				Scanner scPort;
 				do {
 					scPort = new Scanner(System.in);
-					System.out
-							.println("Sur quel port est connecté le proxy ?");
+					System.out.println("Sur quel port est connecté le proxy ?");
 					str = scPort.nextLine();
 				} while (!Tool.isValidPort(str));
 				scPort.close();
 				
 				int port = Integer.valueOf(str).intValue();
 				
-				TcpClient tcpClient = new TcpClient(ip, port);
-				System.out.println(tcpClient.receive());
-				tcpClient.closeClient();
+				
+				/************************/
+				new TcpExample(ip, port);
 				
 				str = "";
 				Scanner scExit;
