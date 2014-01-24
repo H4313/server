@@ -17,7 +17,7 @@ import com.h4313.deephouse.server.util.Constant;
 
 public class TcpSender extends Thread
 {
-	private volatile boolean alive;
+	private volatile boolean alive = true;
 	private Socket socket;
 	private OutputStream out;
 	private String clientAddress;
@@ -27,13 +27,15 @@ public class TcpSender extends Thread
     private CallBack applicant;
 	
 	public TcpSender(String ip, int port, CallBack applicant) throws IOException
-	{
+	{	
+		this.alive = true;
+		this.clientId = TcpSender.lastClientId++;
+		
 		try 
-		{
-			this.alive = true;
-			this.clientId = TcpSender.lastClientId++;
-			
-			this.socket = new Socket(InetAddress.getByName(ip), port);
+		{	
+//			System.out.println("ip = " + ip);
+//			System.out.println("port = " + port);
+			this.socket = new Socket(ip, port);
 			
 			this.clientAddress = ip;
 			this.clientPort = port;
@@ -55,17 +57,20 @@ public class TcpSender extends Thread
 		try
 		{
 			String s = null;
-			while(this.alive)
+			while(true)
 			{
-				s = this.applicant.callBack(null);
+				s = applicant.callBack(null);
+				System.out.println("Retour du callback=" + s);
 				
 				if(s != null)
-					this.send(s);
+					send(s);
+				
+				Thread.sleep(20000);
 			}
 		}
 		catch(Exception e)
 		{
-//			e.printStackTrace();
+			e.printStackTrace();
 			System.out.println("Erreur avec le TCP");
 		}
 	}
@@ -77,12 +82,17 @@ public class TcpSender extends Thread
 	{
 		try
 		{
+//			message = "F602010008000000FF9F1E070C00";
 			byte[] byteswrite = new byte[Constant.TCP_FRAME_LENGTH];
 			byteswrite = message.getBytes();
 			out.write(byteswrite);
+			
+//			System.out.println("Message envoye en string =" + message);
+//			System.out.println("Message envoye en bytes =" + byteswrite);
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			throw new Exception("Impossible d'envoyer un message");
 		}
 	}
@@ -90,7 +100,7 @@ public class TcpSender extends Thread
 	/**
 	* Fermeture du client, Fermeture des connexions.
 	*/
-	public void closeClient() throws Exception
+	public void closeSender() throws Exception
 	{
 		try
 		{		

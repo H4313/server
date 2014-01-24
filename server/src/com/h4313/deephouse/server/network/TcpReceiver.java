@@ -24,16 +24,24 @@ public class TcpReceiver extends Thread
 	 */
     public TcpReceiver(int port, CallBack applicant) throws IOException
     {
+    	System.out.println("TcpReceiver On");
 		try
 		{
 			this.alive = true;
 			this.serverId = TcpReceiver.lastServerId++;
 			this.serverSocket = new ServerSocket(port);
 			this.applicant = applicant;
+				
+			System.out.println("A l'ecoute sur le port " + port);
 		}
 		catch (IOException e) 
 		{ 
+			e.printStackTrace();
 			throw new IOException("Impossible d'ouvrir le port " + port);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
     }
     
@@ -42,7 +50,9 @@ public class TcpReceiver extends Thread
 	{
 		try
 		{
-			while(this.alive)
+			this.startListening();
+			
+			while(true)
 			{
 				this.applicant.callBack(this.receive());
 			}
@@ -75,14 +85,14 @@ public class TcpReceiver extends Thread
 	}
     
 	/**
-	 * Ouvre une socket, un input et un output.
+	 * Ouvre une socket, un input,
 	 * @throws Exception
 	 */
 	public void startListening() throws Exception
 	{
 		try
 		{
-			this.socket = serverSocket.accept();
+			this.socket = this.serverSocket.accept();
 			this.in = this.socket.getInputStream();
 		}
 		catch (Exception e) 
@@ -96,7 +106,7 @@ public class TcpReceiver extends Thread
 	* Arret du serveur.
 	* Ferme serverSocket.
 	*/
-	public void closeServer() throws Exception
+	public void closeReceiver() throws Exception
 	{
 		try
 		{	
