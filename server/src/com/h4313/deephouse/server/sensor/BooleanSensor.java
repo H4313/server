@@ -10,10 +10,14 @@ public class BooleanSensor extends Sensor {
 		this.id = id;
 		this.type = type;
 	}
+	
+	protected boolean lastValue;
 
 	public String getDatas() {
 		String datas = "";
-		// TODO ecrire datas
+		if(lastValue) {
+			datas += "";
+		}
 		return datas;
 	}
 
