@@ -2,10 +2,10 @@ package com.h4313.deephouse.server.main;
 
 import java.util.Scanner;
 
-import com.h4313.deephouse.server.network.CallBack;
-import com.h4313.deephouse.server.network.TcpReceiveExample;
-import com.h4313.deephouse.server.network.TcpSendExample;
-import com.h4313.deephouse.server.network.TcpSender;
+import com.h4313.deephouse.network.CallBack;
+import com.h4313.deephouse.network.TcpReceiveExample;
+import com.h4313.deephouse.network.TcpSendExample;
+import com.h4313.deephouse.network.TcpSender;
 import com.h4313.deephouse.util.Tool;
 
 public class Main {
