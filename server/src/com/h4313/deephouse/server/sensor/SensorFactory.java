@@ -27,10 +27,10 @@ public class SensorFactory {
 			return new BooleanSensor(id, type);
 
 		case HUMIDITY:
-			return new ValueSensor(id, type);
+			return new HumiditySensor(id, type);
 
 		case TEMPERATURE:
-			return new ValueSensor(id, type);
+			return new TemperatureSensor(id, type);
 		}
 		return null;
 	}

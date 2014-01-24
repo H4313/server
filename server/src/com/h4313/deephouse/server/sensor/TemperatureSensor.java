@@ -4,9 +4,9 @@ import com.h4313.deephouse.exceptions.DeepHouseException;
 import com.h4313.deephouse.frame.Frame;
 import com.h4313.deephouse.sensor.SensorType;
 
-public class ValueSensor extends Sensor {
+public class TemperatureSensor extends Sensor {
 
-	public ValueSensor(String id, SensorType type) {
+	public TemperatureSensor(String id, SensorType type) {
 		this.id = id;
 		this.type = type;
 	}
