@@ -3,6 +3,7 @@ package com.h4313.deephouse.server.sensor;
 import com.h4313.deephouse.exceptions.DeepHouseException;
 import com.h4313.deephouse.frame.Frame;
 import com.h4313.deephouse.sensor.SensorType;
+import com.h4313.deephouse.server.util.Constant;
 
 public abstract class Sensor 
 {
@@ -14,7 +15,10 @@ public abstract class Sensor
 	{
 		String frame = "";
 		//TODO ecriture des trames
-		frame += type;
+		frame += type.getTypeFrame();
+		frame += getDatas();
+		frame += id;
+		frame += Constant.FRAME_STATUS_AND_CHECKSUM;
 		return frame;
 	}
 	
