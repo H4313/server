@@ -1,10 +1,11 @@
 package com.h4313.deephouse.server.sensor;
 
+import com.h4313.deephouse.exceptions.DeepHouseFormatException;
 import com.h4313.deephouse.sensor.SensorType;
 
 public class SensorFactory {
 
-	public static Sensor createSensor(String id, SensorType type) {
+	public static Sensor createSensor(String id, SensorType type) throws DeepHouseFormatException {
 
 		switch (type) {
 
@@ -32,6 +33,6 @@ public class SensorFactory {
 		case TEMPERATURE:
 			return new ValueSensor(id, type);
 		}
-		return null;
+		throw new DeepHouseFormatException("Unknown Sensor type");
 	}
 }
