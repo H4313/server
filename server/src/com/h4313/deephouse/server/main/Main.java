@@ -6,7 +6,7 @@ import com.h4313.deephouse.network.TcpReceiveExample;
 import com.h4313.deephouse.network.TcpSendExample;
 
 public class Main {
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		if(args.length == 1)
 		{
@@ -20,7 +20,6 @@ public class Main {
 			new TcpSendExample(ip, port);
 		}
 		
-			/************************/
 		
 			String str = "";
 			Scanner scExit;
