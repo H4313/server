@@ -8,17 +8,17 @@ import com.h4313.deephouse.network.TcpSendExample;
 public class Main {
 	public static void main(String[] args) throws Exception
 	{
-		if(args.length == 1)
-		{
-			int port = Integer.valueOf(args[0]);
-			new TcpReceiveExample(port);
-		}
-		else if(args.length == 2)
-		{
-			String ip = args[0];
-			int port = Integer.valueOf(args[1]);
-			new TcpSendExample(ip, port);
-		}
+//		if(args.length == 1)
+//		{
+//			int port = Integer.valueOf(args[0]);
+//			new TcpReceiveExample(port);
+//		}
+//		else if(args.length == 2)
+//		{
+//			String ip = args[0];
+//			int port = Integer.valueOf(args[1]);
+//			new TcpSendExample(ip, port);
+//		}
 		
 		
 			String str = "";
