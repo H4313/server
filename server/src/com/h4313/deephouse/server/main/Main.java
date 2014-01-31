@@ -2,60 +2,36 @@ package com.h4313.deephouse.server.main;
 
 import java.util.Scanner;
 
-import com.h4313.deephouse.server.network.CallBack;
-import com.h4313.deephouse.server.network.TcpExample;
-import com.h4313.deephouse.server.network.TcpSender;
-import com.h4313.deephouse.util.Tool;
+import com.h4313.deephouse.network.TcpReceiveExample;
+import com.h4313.deephouse.network.TcpSendExample;
 
 public class Main {
-	public static void main(String[] args) {
-		if (args.length == 0) {
-			try {
-				
-				String str = "";
-				Scanner scIp;
-				do {
-					scIp = new Scanner(System.in);
-					System.out
-							.println("Quelle est l'adresse du proxy ?");
-					str = scIp.nextLine();
-				} while (!Tool.isValidIp(str));
-				scIp.close();
-
-				String ip = str;
-
-				str = "";
-				Scanner scPort;
-				do {
-					scPort = new Scanner(System.in);
-					System.out.println("Sur quel port est connecté le proxy ?");
-					str = scPort.nextLine();
-				} while (!Tool.isValidPort(str));
-				scPort.close();
-				
-				int port = Integer.valueOf(str).intValue();
-				
-				
-				/************************/
-				new TcpExample(ip, port);
-				
-				str = "";
-				Scanner scExit;
-				do {
-					scExit = new Scanner(System.in);
-					System.out
-							.println("/// Tapez 'EXIT' pour arreter le serveur ///");
-					str = scExit.nextLine();
-				} while (!str.toLowerCase().contains((CharSequence) "exit"));
-				scExit.close();
-				
-			} catch (Exception e) {
-				 System.out.println("Erreur de l'application : " + e.getMessage());
-			}
-
+	public static void main(String[] args) throws Exception
+	{
+//		if(args.length == 1)
+//		{
+//			int port = Integer.valueOf(args[0]);
+//			new TcpReceiveExample(port);
+//		}
+//		else if(args.length == 2)
+//		{
+//			String ip = args[0];
+//			int port = Integer.valueOf(args[1]);
+//			new TcpSendExample(ip, port);
+//		}
+		
+		
+			String str = "";
+			Scanner scExit;
+			do {
+				scExit = new Scanner(System.in);
+				System.out.println("/// Tapez 'EXIT' pour arreter le serveur ///");
+				str = scExit.nextLine();
+			} while (!str.toLowerCase().contains((CharSequence) "exit"));
+			scExit.close();
+		
 			System.out.println("Arret du serveur");
 
 			System.exit(0);
-		}
 	}
 }
