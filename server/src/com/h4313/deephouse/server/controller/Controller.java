@@ -1,10 +1,15 @@
 package com.h4313.deephouse.server.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
+import com.h4313.deephouse.actuator.Actuator;
+import com.h4313.deephouse.actuator.ActuatorSet;
 import com.h4313.deephouse.exceptions.DeepHouseException;
 import com.h4313.deephouse.frame.Frame;
 import com.h4313.deephouse.housemodel.House;
+import com.h4313.deephouse.housemodel.Room;
 
 public class Controller extends Thread {
 
@@ -38,7 +43,18 @@ public class Controller extends Thread {
 	}
 	
 	private void sendActuators() {
-		
+		for(Room r : house.getRooms())
+		{
+			ActuatorSet actuators = r.getActuators();
+	        Set<Map.Entry<String, Actuator>> set = actuators.entrySet();
+	        for(Map.Entry<String,Actuator> entry : set)
+	        {
+	        	if(entry.getValue().getModified()) {
+	        		sender.submitMessage(entry.getValue().getFrame());
+	        		entry.getValue().setModified(false);
+	        	}
+	        }
+		}
 	}
 	
 	private void updateModel() {
