@@ -6,10 +6,14 @@ import java.util.Set;
 
 import com.h4313.deephouse.actuator.Actuator;
 import com.h4313.deephouse.actuator.ActuatorSet;
+import com.h4313.deephouse.actuator.ActuatorType;
 import com.h4313.deephouse.exceptions.DeepHouseException;
 import com.h4313.deephouse.frame.Frame;
 import com.h4313.deephouse.housemodel.House;
 import com.h4313.deephouse.housemodel.Room;
+import com.h4313.deephouse.sensor.Sensor;
+import com.h4313.deephouse.sensor.SensorSet;
+import com.h4313.deephouse.sensor.SensorType;
 
 public class Controller extends Thread {
 	
@@ -78,12 +82,10 @@ public class Controller extends Thread {
 	}
 	
 	private void sendActuators() {
-		for(Room r : house.getRooms())
-		{
+		for(Room r : house.getRooms()) {
 			ActuatorSet actuators = r.getActuators();
 	        Set<Map.Entry<String, Actuator>> set = actuators.entrySet();
-	        for(Map.Entry<String,Actuator> entry : set)
-	        {
+	        for(Map.Entry<String,Actuator> entry : set) {
 	        	if(entry.getValue().getModified()) {
 	        		actuatorsSender.submitMessage(entry.getValue().getFrame());
 	        		entry.getValue().setModified(false);
@@ -94,6 +96,19 @@ public class Controller extends Thread {
 	
 	private void updateModel() {
 		//TODO tout ce qui est IA
+		//TODO enlever cet exemple et faire des vrais IAs
+		for(Room r : house.getRooms()) {
+			SensorSet sensors = r.getSensors();
+			ActuatorSet actuators = r.getActuators();
+			ArrayList<Sensor<Object>> temp = sensors.getByType(SensorType.TEMPERATURE);
+			ArrayList<Actuator> heater = actuators.getByType(ActuatorType.RADIATOR);
+			if(temp.size() != 0) {
+				if((Double)temp.get(0).getLastValue() <= 20.0) {
+					heater.get(0).setValue(23.0);
+					heater.get(0).setModified(true);
+				}
+			}
+		}
 	}
 	
     public void stopController() {
