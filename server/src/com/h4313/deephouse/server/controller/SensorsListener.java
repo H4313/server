@@ -7,14 +7,18 @@ import com.h4313.deephouse.network.CallBack;
 import com.h4313.deephouse.network.TcpReceiver;
 
 public class SensorsListener implements CallBack {
+	
 	private volatile boolean record;
+	
 	private ArrayList<String> messages;
+	
+	private TcpReceiver tcpReceiver;
 	
 	public SensorsListener(int port)
 	{
 		messages = new ArrayList<String>();
 		
-		TcpReceiver tcpReceiver = null;
+		this.tcpReceiver = null;
 		try {
 			tcpReceiver = new TcpReceiver(port, this);
 			tcpReceiver.start();
@@ -49,5 +53,10 @@ public class SensorsListener implements CallBack {
 		ArrayList<String> buffer = new ArrayList<String>(messages);
 		messages.clear();
 		return buffer;
+	}
+	
+	public void stopListener() throws Exception
+	{
+		this.tcpReceiver.closeReceiver();
 	}
 }
