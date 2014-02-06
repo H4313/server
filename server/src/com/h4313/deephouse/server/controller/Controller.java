@@ -12,34 +12,69 @@ import com.h4313.deephouse.housemodel.House;
 import com.h4313.deephouse.housemodel.Room;
 
 public class Controller extends Thread {
+	
+	private volatile boolean alive;
+	
+	private static volatile Controller instance = null;
 
 	protected House house;
 	
-	protected SensorsListener listener;
+	protected SensorsListener sensorsListener;
 	
-	protected ActuatorsSender sender;
+	protected ActuatorsSender actuatorsSender;
 	
-	public Controller(int inputPort, String outputIp, int outputPort) {
-		this.listener = new SensorsListener(inputPort);
-		this.sender = new ActuatorsSender(outputIp,outputPort);
+	/**
+	 * Constructeur du controleur
+	 */
+	private Controller() {
+		super();
+        this.alive = true;
 	}
+	
+	public static final Controller getInstance() {
+        if (Controller.instance == null) {
+            synchronized(Controller.class) {
+              if (Controller.instance == null) {
+             	 Controller.instance = new Controller();
+              }
+            }
+         }
+         return Controller.instance;
+	}
+	
+	
+    public void initActuatorsSender(String host, int port) {
+    	actuatorsSender = new ActuatorsSender(host,port);
+    }
+    
+    public void initSensorsListener(int port) {
+    	sensorsListener = new SensorsListener(port);
+    }
 	
 	public void run() {
 		try {
-			updateSensors();
-			updateModel();
-			sendActuators();
+			while(alive)
+			{
+				if(updateSensors()) {
+					updateModel();
+					sendActuators();	
+				}
+				else {
+					Thread.sleep(5000);
+				}
+			}
 		} catch(Exception e) {
-			System.out.println("Controller Error");
+			e.printStackTrace();
 		}
 	}
 	
-	private void updateSensors() throws DeepHouseException {
-		ArrayList<String> messages = listener.clearBuffer();
+	private boolean updateSensors() throws DeepHouseException {
+		ArrayList<String> messages = sensorsListener.clearBuffer();
 		for(String message : messages) {
 			Frame frame = new Frame(message);
 			house.updateSensor(frame);
 		}
+		return (!messages.isEmpty());
 	}
 	
 	private void sendActuators() {
@@ -50,7 +85,7 @@ public class Controller extends Thread {
 	        for(Map.Entry<String,Actuator> entry : set)
 	        {
 	        	if(entry.getValue().getModified()) {
-	        		sender.submitMessage(entry.getValue().getFrame());
+	        		actuatorsSender.submitMessage(entry.getValue().getFrame());
 	        		entry.getValue().setModified(false);
 	        	}
 	        }
@@ -60,5 +95,15 @@ public class Controller extends Thread {
 	private void updateModel() {
 		//TODO tout ce qui est IA
 	}
+	
+    public void stopController() {
+    	this.alive = false;
+    	try {
+	    	this.sensorsListener.stopListener();
+	    	this.actuatorsSender.stopSender();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
 	
 }
