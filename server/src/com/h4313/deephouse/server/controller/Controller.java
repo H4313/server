@@ -98,12 +98,12 @@ public class Controller extends Thread {
 		//TODO tout ce qui est IA
 		//TODO enlever cet exemple et faire des vrais IAs
 		for(Room r : house.getRooms()) {
-			ArrayList<Sensor<Object>> temp = r.getSensorByType(SensorType.TEMPERATURE);
-			ArrayList<Actuator<Object>> heater = r.getActuatorByType(ActuatorType.RADIATOR);
-			if(temp.size() != 0) {
-				if((Double)temp.get(0).getLastValue() <= 20.0) {
-					heater.get(0).setLastValue(23.0);
-					heater.get(0).setModified(true);
+			ArrayList<Sensor<Object>> light = r.getSensorByType(SensorType.LIGHT);
+			ArrayList<Actuator<Object>> lightcontrol = r.getActuatorByType(ActuatorType.LIGHTCONTROL);
+			if(light.size() != 0) {
+				if((Boolean)light.get(0).getLastValue()) {
+					lightcontrol.get(0).setLastValue(23.0);
+					lightcontrol.get(0).setModified(true);
 				}
 			}
 		}
