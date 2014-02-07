@@ -8,6 +8,7 @@ import com.h4313.deephouse.housemodel.House;
 import com.h4313.deephouse.housemodel.Room;
 import com.h4313.deephouse.sensor.SensorType;
 import com.h4313.deephouse.server.controller.Controller;
+import com.h4313.deephouse.util.DecToHexConverter;
 import com.h4313.deephouse.util.DeepHouseCalendar;
 
 public class Main {
@@ -23,15 +24,15 @@ public class Main {
 			int id = 0;
 			for(Room room : rooms)
 			{
-				room.addSensor(String.valueOf(id++), SensorType.TEMPERATURE);
-				room.addSensor(String.valueOf(id++), SensorType.WINDOW);
-				room.addSensor(String.valueOf(id++), SensorType.LIGHT);
-				room.addSensor(String.valueOf(id++), SensorType.PRESENCE);
-				
-				room.addActuator(String.valueOf(id++), ActuatorType.LIGHTCONTROL);
-				room.addActuator(String.valueOf(id++), ActuatorType.AIRCONDITION);
-				room.addActuator(String.valueOf(id++), ActuatorType.RADIATOR);
-				room.addActuator(String.valueOf(id++), ActuatorType.WINDOWCLOSER);
+				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.TEMPERATURE);
+				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.WINDOW);
+				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.LIGHT);
+				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.PRESENCE);
+
+				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.LIGHTCONTROL);
+				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.AIRCONDITION);
+				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.RADIATOR);
+				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.WINDOWCLOSER);
 			}
 		} 
 		catch(Exception e)
