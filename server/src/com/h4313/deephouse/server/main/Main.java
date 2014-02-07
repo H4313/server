@@ -33,6 +33,8 @@ public class Main {
 				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.AIRCONDITION);
 				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.RADIATOR);
 				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.WINDOWCLOSER);
+				
+				// room.connectSensorActuator(sensorId, actuatorId);
 			}
 		} 
 		catch(Exception e)
