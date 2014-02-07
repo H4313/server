@@ -24,15 +24,15 @@ public class Main {
 			int id = 0;
 			for(Room room : rooms)
 			{
-				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.TEMPERATURE);
-				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.WINDOW);
-				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.LIGHT);
-				room.addSensor("0000" + DecToHexConverter.decToHex(id++), SensorType.PRESENCE);
+				room.addSensor(DecToHexConverter.decToHex(id++), SensorType.TEMPERATURE);
+				room.addSensor(DecToHexConverter.decToHex(id++), SensorType.WINDOW);
+				room.addSensor(DecToHexConverter.decToHex(id++), SensorType.LIGHT);
+				room.addSensor(DecToHexConverter.decToHex(id++), SensorType.PRESENCE);
 
-				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.LIGHTCONTROL);
-				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.AIRCONDITION);
-				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.RADIATOR);
-				room.addActuator("0000" + DecToHexConverter.decToHex(id++), ActuatorType.WINDOWCLOSER);
+				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.LIGHTCONTROL);
+				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.AIRCONDITION);
+				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.RADIATOR);
+				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.WINDOWCLOSER);
 			}
 		} 
 		catch(Exception e)
