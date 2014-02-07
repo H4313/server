@@ -1,19 +1,21 @@
 package com.h4313.deephouse.server.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.h4313.deephouse.network.CallBack;
 import com.h4313.deephouse.network.TcpSender;
 
 public class ActuatorsSender implements CallBack {
-private ArrayList<String> messages;
+	
+	private ArrayList<String> messages;
+	
+	private TcpSender tcpSender;
 	
 	public ActuatorsSender(String ip, int port)
 	{
 		messages = new ArrayList<String>();
 		
-		TcpSender tcpSender = null;
+		tcpSender = null;
 		try {
 			tcpSender = new TcpSender(ip, port, this);
 			tcpSender.start();
@@ -46,5 +48,10 @@ private ArrayList<String> messages;
 		}
 		
 		return value;
+	}
+	
+	public void stopSender() throws Exception
+	{
+		this.tcpSender.closeSender();
 	}
 }
