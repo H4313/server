@@ -102,7 +102,7 @@ public class Controller extends Thread {
 			ArrayList<Actuator<Object>> lightcontrol = r.getActuatorByType(ActuatorType.LIGHTCONTROL);
 			if(light.size() != 0) {
 				if((Boolean)light.get(0).getLastValue()) {
-					lightcontrol.get(0).setLastValue(23.0);
+					lightcontrol.get(0).setLastValue(false);
 					lightcontrol.get(0).setModified(true);
 				}
 			}
