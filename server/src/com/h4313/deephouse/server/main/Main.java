@@ -13,6 +13,7 @@ import com.h4313.deephouse.util.DeepHouseCalendar;
 public class Main {
 	public static void main(String[] args) throws Exception
 	{
+		// Initialisation horloge
 		DeepHouseCalendar.getInstance().init();
 		
 		// Initialisation de la maison // TODO : RETIRER POUR LA PRODUCTION
