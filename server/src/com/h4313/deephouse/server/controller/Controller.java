@@ -21,8 +21,6 @@ public class Controller extends Thread {
 	private volatile boolean alive;
 	
 	private static volatile Controller instance = null;
-
-	protected House house;
 	
 	protected SensorsListener sensorsListener;
 	
@@ -33,7 +31,6 @@ public class Controller extends Thread {
 	 */
 	private Controller() {
 		super();
-		house = House.getInstance();
         this.alive = true;
 	}
 	
@@ -63,7 +60,6 @@ public class Controller extends Thread {
 			while(alive)
 			{
 				if(updateSensors()) {
-					System.out.println("Update Model");
 					updateModel();
 					sendActuators();	
 				}
@@ -81,13 +77,13 @@ public class Controller extends Thread {
 		for(String message : messages) {
 			System.out.println("Message recu : " + message);
 			Frame frame = new Frame(message);
-			house.updateSensor(frame);
+			House.getInstance().updateSensor(frame);
 		}
 		return (!messages.isEmpty());
 	}
 	
 	private void sendActuators() {
-		for(Room r : house.getRooms()) {
+		for(Room r : House.getInstance().getRooms()) {
 			Map<String,Actuator<Object>> actuators = r.getActuators();
 	        Set<Map.Entry<String, Actuator<Object>>> set = actuators.entrySet();
 	        for(Map.Entry<String,Actuator<Object>> entry : set) {
@@ -103,14 +99,11 @@ public class Controller extends Thread {
 	private void updateModel() {
 		//TODO tout ce qui est IA
 		//TODO enlever cet exemple et faire des vrais IAs
-		for(Room r : house.getRooms()) {
+		for(Room r : House.getInstance().getRooms()) {
 			ArrayList<Sensor<Object>> light = r.getSensorByType(SensorType.LIGHT);
 			ArrayList<Actuator<Object>> lightcontrol = r.getActuatorByType(ActuatorType.LIGHTCONTROL);
-			if(light.size() != 0 && r.getIdRoom() == RoomConstants.ID_BEDROOM) {
-				System.out.println("Il y a une lumiere dans " + r);
-				System.out.println("Valeur : " + ((Boolean)light.get(0).getLastValue()).booleanValue());
+			if(light.size() != 0 && r.getIdRoom() == RoomConstants.ID_BEDROOM && lightcontrol.size() !=0) {
 				if(((Boolean)light.get(0).getLastValue()).booleanValue()) {
-					System.out.println("La lumiere est allumee");
 					lightcontrol.get(0).setLastValue(false);
 					lightcontrol.get(0).setModified(true);
 				}
