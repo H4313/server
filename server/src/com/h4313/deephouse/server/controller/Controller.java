@@ -32,6 +32,7 @@ public class Controller extends Thread {
 	 */
 	private Controller() {
 		super();
+		house = House.getInstance();
         this.alive = true;
 	}
 	
