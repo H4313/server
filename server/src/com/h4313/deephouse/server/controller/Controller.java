@@ -83,9 +83,9 @@ public class Controller extends Thread {
 	
 	private void sendActuators() {
 		for(Room r : house.getRooms()) {
-			ActuatorSet actuators = r.getActuators();
-	        Set<Map.Entry<String, Actuator>> set = actuators.entrySet();
-	        for(Map.Entry<String,Actuator> entry : set) {
+			Map<String,Actuator<Object>> actuators = r.getActuators();
+	        Set<Map.Entry<String, Actuator<Object>>> set = actuators.entrySet();
+	        for(Map.Entry<String,Actuator<Object>> entry : set) {
 	        	if(entry.getValue().getModified()) {
 	        		actuatorsSender.submitMessage(entry.getValue().getFrame());
 	        		entry.getValue().setModified(false);
@@ -98,13 +98,11 @@ public class Controller extends Thread {
 		//TODO tout ce qui est IA
 		//TODO enlever cet exemple et faire des vrais IAs
 		for(Room r : house.getRooms()) {
-			SensorSet sensors = r.getSensors();
-			ActuatorSet actuators = r.getActuators();
-			ArrayList<Sensor<Object>> temp = sensors.getByType(SensorType.TEMPERATURE);
-			ArrayList<Actuator> heater = actuators.getByType(ActuatorType.RADIATOR);
+			ArrayList<Sensor<Object>> temp = r.getSensorByType(SensorType.TEMPERATURE);
+			ArrayList<Actuator<Object>> heater = r.getActuatorByType(ActuatorType.RADIATOR);
 			if(temp.size() != 0) {
 				if((Double)temp.get(0).getLastValue() <= 20.0) {
-					heater.get(0).setValue(23.0);
+					heater.get(0).setLastValue(23.0);
 					heater.get(0).setModified(true);
 				}
 			}
