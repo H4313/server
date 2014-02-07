@@ -42,7 +42,6 @@ public class SensorsListener implements CallBack {
 		if(this.record)
 		{
 			messages.add(s);
-			System.out.println(messages.get(messages.size()-1));
 //			this.record = false;
 		}
 		

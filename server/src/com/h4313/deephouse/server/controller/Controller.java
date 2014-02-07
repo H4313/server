@@ -11,6 +11,7 @@ import com.h4313.deephouse.exceptions.DeepHouseException;
 import com.h4313.deephouse.frame.Frame;
 import com.h4313.deephouse.housemodel.House;
 import com.h4313.deephouse.housemodel.Room;
+import com.h4313.deephouse.housemodel.RoomConstants;
 import com.h4313.deephouse.sensor.Sensor;
 import com.h4313.deephouse.sensor.SensorSet;
 import com.h4313.deephouse.sensor.SensorType;
@@ -56,11 +57,13 @@ public class Controller extends Thread {
     	sensorsListener = new SensorsListener(port);
     }
 	
+    @Override
 	public void run() {
 		try {
 			while(alive)
 			{
 				if(updateSensors()) {
+					System.out.println("Update Model");
 					updateModel();
 					sendActuators();	
 				}
@@ -76,6 +79,7 @@ public class Controller extends Thread {
 	private boolean updateSensors() throws DeepHouseException {
 		ArrayList<String> messages = sensorsListener.clearBuffer();
 		for(String message : messages) {
+			System.out.println("Message recu : " + message);
 			Frame frame = new Frame(message);
 			house.updateSensor(frame);
 		}
@@ -88,6 +92,7 @@ public class Controller extends Thread {
 	        Set<Map.Entry<String, Actuator<Object>>> set = actuators.entrySet();
 	        for(Map.Entry<String,Actuator<Object>> entry : set) {
 	        	if(entry.getValue().getModified()) {
+	        		System.out.println("Envoye : " + entry.getValue().getFrame());
 	        		actuatorsSender.submitMessage(entry.getValue().getFrame());
 	        		entry.getValue().setModified(false);
 	        	}
@@ -101,8 +106,11 @@ public class Controller extends Thread {
 		for(Room r : house.getRooms()) {
 			ArrayList<Sensor<Object>> light = r.getSensorByType(SensorType.LIGHT);
 			ArrayList<Actuator<Object>> lightcontrol = r.getActuatorByType(ActuatorType.LIGHTCONTROL);
-			if(light.size() != 0) {
-				if((Boolean)light.get(0).getLastValue()) {
+			if(light.size() != 0 && r.getIdRoom() == RoomConstants.ID_BEDROOM) {
+				System.out.println("Il y a une lumiere dans " + r);
+				System.out.println("Valeur : " + ((Boolean)light.get(0).getLastValue()).booleanValue());
+				if(((Boolean)light.get(0).getLastValue()).booleanValue()) {
+					System.out.println("La lumiere est allumee");
 					lightcontrol.get(0).setLastValue(false);
 					lightcontrol.get(0).setModified(true);
 				}
