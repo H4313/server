@@ -30,17 +30,26 @@ public class Main {
 				room.addSensor(DecToHexConverter.decToHex(id++), SensorType.PRESENCE);
 
 				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.LIGHTCONTROL);
-				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.AIRCONDITION);
+				//room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.AIRCONDITION);
 				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.RADIATOR);
 				room.addActuator(DecToHexConverter.decToHex(id++), ActuatorType.WINDOWCLOSER);
 				
 				// room.connectSensorActuator(sensorId, actuatorId);
+				
+				room.establishConnections();
+			}
+			System.out.println("Done init");
+			for(Room room : rooms){
+				room.printInformations();
 			}
 		} 
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+
+		//System.exit(0);;
+		
 		
 		// Initialisation du reseau
 		Controller.getInstance().initSensorsListener(Integer.valueOf(args[0]).intValue());
