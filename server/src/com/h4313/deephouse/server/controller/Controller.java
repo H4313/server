@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.h4313.deephouse.actuator.Actuator;
-import com.h4313.deephouse.actuator.ActuatorSet;
 import com.h4313.deephouse.actuator.ActuatorType;
 import com.h4313.deephouse.exceptions.DeepHouseException;
 import com.h4313.deephouse.frame.Frame;
@@ -13,7 +12,6 @@ import com.h4313.deephouse.housemodel.House;
 import com.h4313.deephouse.housemodel.Room;
 import com.h4313.deephouse.housemodel.RoomConstants;
 import com.h4313.deephouse.sensor.Sensor;
-import com.h4313.deephouse.sensor.SensorSet;
 import com.h4313.deephouse.sensor.SensorType;
 
 public class Controller extends Thread {
