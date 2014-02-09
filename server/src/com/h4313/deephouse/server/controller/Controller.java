@@ -13,6 +13,7 @@ import com.h4313.deephouse.housemodel.Room;
 import com.h4313.deephouse.housemodel.RoomConstants;
 import com.h4313.deephouse.sensor.Sensor;
 import com.h4313.deephouse.sensor.SensorType;
+import com.h4313.deephouse.server.ai.TemperatureAI;
 
 public class Controller extends Thread {
 	
@@ -39,6 +40,7 @@ public class Controller extends Thread {
              	 Controller.instance = new Controller();
               }
             }
+            TemperatureAI.initTemperatureAI();
          }
          return Controller.instance;
 	}
@@ -70,6 +72,12 @@ public class Controller extends Thread {
 		}
 	}
 	
+    /**
+     * Clears the listener buffer and updates every sensor according
+     * to the frames received
+     * @return	True if at least one sensor has been updated, false otherwise
+     * @throws DeepHouseException
+     */
 	private boolean updateSensors() throws DeepHouseException {
 		ArrayList<String> messages = sensorsListener.clearBuffer();
 		for(String message : messages) {
@@ -80,6 +88,10 @@ public class Controller extends Thread {
 		return (!messages.isEmpty());
 	}
 	
+	/**
+	 * Sends a frame for each actuator that has been updated
+	 * through the sender
+	 */
 	private void sendActuators() {
 		for(Room r : House.getInstance().getRooms()) {
 			Map<String,Actuator<Object>> actuators = r.getActuators();
@@ -94,9 +106,11 @@ public class Controller extends Thread {
 		}
 	}
 	
+	/**
+	 * Calls every AI to update the model
+	 */
 	private void updateModel() {
-		//TODO tout ce qui est IA
-		//TODO enlever cet exemple et faire des vrais IAs
+		/*
 		for(Room r : House.getInstance().getRooms()) {
 			ArrayList<Sensor<Object>> light = r.getSensorByType(SensorType.LIGHT);
 			ArrayList<Actuator<Object>> lightcontrol = r.getActuatorByType(ActuatorType.LIGHTCONTROL);
@@ -107,6 +121,8 @@ public class Controller extends Thread {
 				}
 			}
 		}
+		*/
+		TemperatureAI.run();
 	}
 	
     public void stopController() {
