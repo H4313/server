@@ -1,5 +1,9 @@
 package com.h4313.deephouse.server.main;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,9 +54,21 @@ public class Main {
 		}
 
 		// Persistance de la maison test : TODO A RETIRER POUR LA PRODUCTION
-		HouseDAO houseDao = new HouseDAO();
-		houseDao.createUpdate(House.getInstance());
+//		HouseDAO houseDao = new HouseDAO();
+//		houseDao.createUpdate(House.getInstance());
+
+//		try {
+//			Gson gson = new Gson();
+//			//write converted json data to a file named "file.json"
+//			FileWriter writer = new FileWriter("/Users/macbric/Desktop/house.txt");
+//			writer.write(gson.toJson(House.getInstance()));
+//			writer.close();
+//	 
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
+		System.exit(0);
 		
 		// Initialisation du reseau
 		Controller.getInstance().initSensorsListener(Integer.valueOf(args[0]).intValue());
